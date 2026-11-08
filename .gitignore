@@ -1,0 +1,16 @@
+.venv/
+__pycache__/
+*.py[cod]
+.env
+*.db
+.pytest_cache/
+alembic/versions/__pycache__/
+*.backup
+*.bak
+*.before-*
+*.account-backup
+*.pre-*
+public/images/Downloads/
+*.pksz
+app/schemas/auth.p
+*.before*

@@ -1,0 +1,465 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Order delicious burgers, chicken, pizza, fries and more from FINNEY BITES. Fresh Food, Fast Delivery!">
+    <title>FINNEY BITES | Fresh Food, Fast Delivery!</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+
+<style id="finney-account-design">
+[hidden] { display: none !important; }
+
+#accountModal:not([hidden]) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+#authSection {
+    width: min(100%, 460px);
+    margin: 25px auto;
+    padding: 32px;
+    background: #fffaf0;
+    color: #252525;
+    border-radius: 18px;
+    box-shadow: 0 12px 40px rgba(0,0,0,.18);
+}
+
+#authSection h2,
+#authSection h3 {
+    text-align: center;
+    margin-bottom: 12px;
+    color: #252525;
+}
+
+#authSection form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 18px;
+}
+
+#authSection form p {
+    text-align: center;
+    line-height: 1.6;
+}
+
+#authSection label {
+    font-weight: 600;
+    margin-top: 5px;
+}
+
+#authSection input {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #ded6c9;
+    border-radius: 9px;
+    background: white;
+    color: #252525;
+    font-size: 15px;
+    box-sizing: border-box;
+}
+
+#authSection input:focus {
+    outline: 2px solid #f47b20;
+    border-color: #f47b20;
+}
+
+#authSection button,
+#customerDashboard .customer-nav button {
+    cursor: pointer;
+    border-radius: 9px;
+    padding: 12px 16px;
+    font-weight: 700;
+    transition: .2s ease;
+}
+
+#authSection button[type="submit"],
+#authSection .primary-button {
+    background: #f47b20;
+    color: white;
+    border: none;
+}
+
+#authSection button[type="submit"]:hover,
+#authSection .primary-button:hover {
+    background: #d95f0b;
+    transform: translateY(-1px);
+}
+
+#showLogin,
+#showRegister,
+#backToLogin {
+    background: transparent;
+    color: #d95f0b;
+    border: 1px solid #f47b20;
+}
+
+#forgotPasswordLink {
+    color: #d95f0b;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+#accountMessage {
+    text-align: center;
+    line-height: 1.6;
+    margin-top: 16px;
+    overflow-wrap: anywhere;
+}
+
+#customerDashboard {
+    padding: 20px;
+}
+
+#customerDashboard .customer-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+#customerDashboard .customer-nav button {
+    background: #252525;
+    color: #fffaf0;
+    border: 1px solid #f47b20;
+}
+
+@media(max-width: 500px) {
+    #authSection {
+        padding: 22px 17px;
+    }
+}
+</style>
+
+
+<style id="mandatory-customer-login">
+body.customer-auth-required > header,
+body.customer-auth-required > main,
+body.customer-auth-required > footer {
+    display: none !important;
+}
+body.customer-auth-required #accountModal:not([hidden]) {
+    display: flex !important;
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 99999 !important;
+    align-items: center !important;
+    justify-content: center !important;
+    overflow-y: auto !important;
+    background: #171717 !important;
+}
+</style>
+
+</head>
+
+<body class="customer-auth-required">
+
+    <!-- Navigation -->
+    <header class="navbar">
+        <a href="#" class="logo">
+            <img class="logo-image" src="/images/finney-bites-logo.jfif" alt="FINNEY BITES Logo">
+            <span class="logo-copy">
+                <strong>FINNEY BITES</strong>
+            </span>
+        </a>
+
+        <nav class="main-navigation">
+            <a href="#home">Home</a>
+            <a href="#menu">Our Menu</a>
+            <button id="trackOrderButton" class="cart-button">Track Order</button>
+            <button id="favoritesButton" class="cart-button">&#9829; My Favourites</button>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+        </nav>
+
+        <div class="nav-actions">
+            <button id="accountButton" class="cart-button">My Account</button>
+            <button id="cartButton" class="cart-button">
+                Cart (<span id="cartCount">0</span>)
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <main>
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <p class="hero-label">WELCOME TO FINNEY BITES</p>
+                <h1>Fresh Food,<br>Fast Delivery!</h1>
+                <p>Enjoy delicious meals freshly prepared for you.</p>
+                <a href="#menu" class="primary-button">Explore Our Menu</a>
+            </div>
+        </section>
+
+        <!-- FINNEY BITES FOOD MENU BANNER -->
+<section style="width:100%; padding:20px; text-align:center;">
+    <img
+        src="/images/finney-bites-menu.png"
+        alt="FINNEY BITES Food Menu"
+        style="width:100%; max-width:1200px; height:auto; border-radius:15px;"
+    >
+</section>
+<!-- Categories -->
+        <section class="categories-section">
+            <h2>Explore Categories</h2>
+            <div id="categoriesContainer" class="categories-container">
+                <p>Loading categories...</p>
+            </div>
+        </section>
+
+        <!-- Menu -->
+        <section id="menu" class="menu-section">
+            <div class="section-heading">
+                <div>
+                    <p class="section-label">OUR FOOD</p>
+                    <h2>Explore Our Menu</h2>
+                </div>
+
+                <input
+                    type="search"
+                    id="searchInput"
+                    placeholder="Search for food..."
+                >
+            </div>
+
+            <div id="productsContainer" class="products-container">
+                <p>Loading delicious meals...</p>
+            </div>
+        </section>
+
+        <!-- Shopping Cart -->
+        <section id="cart" class="cart-section">
+            <h2>Your Shopping Cart</h2>
+
+            <div id="cartItems">
+                <p>Your cart is currently empty.</p>
+            </div>
+
+            <div class="cart-summary">
+                <h3>Total: KSh <span id="cartTotal">0</span></h3>
+                <button id="checkoutButton" class="primary-button">
+                    Proceed to Checkout
+                </button>
+            </div>
+        </section>
+
+        <!-- Checkout -->
+        <section id="checkout" class="checkout-section">
+            <h2>Complete Your Order</h2>
+
+            <form id="checkoutForm">
+
+                <label for="customerName">Full Name</label>
+                <input type="text" id="customerName" required minlength="2">
+
+                <label for="customerPhone">Phone Number</label>
+                <input type="tel" id="customerPhone" required minlength="9">
+
+                <label for="customerEmail">Email (Optional)</label>
+                <input type="email" id="customerEmail">
+
+                <label for="orderType">Order Type</label>
+                <select id="orderType" required>
+                    <option value="">Select order type</option>
+                    <option value="delivery">Delivery</option>
+                    <option value="pickup">Pickup</option>
+                </select>
+
+                <div id="deliveryFields" hidden>
+                    <label for="deliveryZone">Delivery Area</label>
+                    <select id="deliveryZone">
+                        <option value="">Select delivery area</option>
+                    </select>
+
+                    <label for="deliveryAddress">Delivery Address</label>
+                    <textarea id="deliveryAddress"></textarea>
+                </div>
+
+                <label for="orderNotes">Additional Notes (Optional)</label>
+                <textarea id="orderNotes" maxlength="500"></textarea>
+
+                <button type="submit" class="primary-button">
+                    Place Order
+                </button>
+
+            </form>
+
+            <div id="orderMessage"></div>
+        </section>
+
+        <!-- About -->
+        <section id="about" class="about-section">
+    <h2>About FINNEY BITES</h2>
+
+    <h3>Fresh Food, Fast Delivery!</h3>
+
+    <p>
+        Welcome to FINNEY BITES, your go-to food destination around
+        Zetech University in Kiambu County. We are passionate about
+        making delicious meals accessible and convenient.
+    </p>
+
+    <h3>What We Offer</h3>
+    <p>
+        From tasty burgers and crispy chicken to freshly prepared
+        pizzas, chips, snacks and refreshing drinks, our menu offers
+        something for every craving.
+    </p>
+
+    <h3>Our Commitment</h3>
+    <p>
+        We aim to provide delicious food, convenient ordering,
+        friendly customer service and reliable delivery.
+        You can order for delivery or collect your food through pickup.
+    </p>
+
+    <h3>Delivery and Convenience</h3>
+    <p>
+        Enjoy free delivery on orders worth KSh 2,000 and above.
+        We serve customers around Zetech University and nearby areas.
+    </p>
+
+    <h3>Our Opening Hours</h3>
+    <p>Monday – Saturday: 8:00 AM – 10:00 PM</p>
+    <p>Sunday: Closed</p>
+
+    <p><strong>FINNEY BITES – Great Food, Great Taste, Great Experience!</strong></p>
+</section>
+
+        <!-- Contact -->
+        <section id="contact" class="contact-section">
+            <h2>Contact Us</h2>
+            <p>Call or WhatsApp: +254769943592</p>
+            <p>Email: finneybites@gmail.com</p>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2026 FINNEY BITES. All rights reserved.</p>
+        <p>Fresh Food, Fast Delivery!</p>
+    </footer>
+
+    <!-- Customer Account -->
+    <section id="accountModal" class="account-modal" hidden>
+        <div class="account-panel">
+            <button type="button" id="closeAccount" class="close-account">X</button>
+
+            <div id="authSection">
+                <h2>FINNEY BITES Account</h2>
+
+                <div class="account-tabs">
+                    <button type="button" id="showLogin">Sign In</button>
+                    <button type="button" id="showRegister">Create Account</button>
+                </div>
+
+                <form id="loginForm">
+                    <h3>Welcome Back!</h3>
+
+                    <label for="loginIdentifier">Email or Phone</label>
+                    <input type="text" id="loginIdentifier" required>
+
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" required>
+
+<p class="forgot-password-link">
+    <a href="#" id="forgotPasswordLink">Forgot Password?</a>
+</p>
+
+                    <button type="submit" class="primary-button">Sign In</button>
+                </form>
+
+                <form id="forgotPasswordForm" hidden>
+                    <h3>Recover Your Account</h3>
+                    <p>Enter your registered email to receive a password reset link.</p>
+
+                    <label for="forgotPasswordEmail">Email Address</label>
+                    <input type="email" id="forgotPasswordEmail" required>
+
+                    <button type="submit" class="primary-button">Send Reset Link</button>
+                    <button type="button" id="backToLogin">Back to Sign In</button>
+                </form>
+<form id="resetPasswordForm" hidden>
+    <h3>Choose a New Password</h3>
+    <label for="newPassword">New Password</label>
+    <input type="password" id="newPassword" required minlength="8">
+    <label for="confirmNewPassword">Confirm New Password</label>
+    <input type="password" id="confirmNewPassword" required minlength="8">
+    <button type="submit" class="primary-button">Update Password</button>
+</form>
+
+                <form id="registerForm" hidden>
+                    <h3>Create Your Account</h3>
+
+                    <label for="registerName">Full Name</label>
+                    <input type="text" id="registerName" required minlength="2">
+
+                    <label for="registerEmail">Email</label>
+                    <input type="email" id="registerEmail" required>
+
+                    <label for="registerPhone">Phone Number</label>
+                    <input type="tel" id="registerPhone" required>
+
+                    <label for="registerPassword">Password</label>
+                    <input type="password" id="registerPassword" required minlength="8">
+
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" required minlength="8">
+
+                    <button type="submit" class="primary-button">Create Account</button>
+                </form>
+
+                <p id="accountMessage" role="status"></p>
+            </div>
+
+            <div id="customerDashboard" hidden>
+                <h2>My Account</h2>
+                <p id="customerWelcome"></p>
+
+                <nav class="customer-nav">
+                    <button type="button" data-account-view="profile">Profile</button>
+                    <button type="button" data-account-view="orders">My Orders</button>
+                    <button type="button" data-account-view="favorites">Favourites</button>
+                    <button type="button" data-account-view="loyalty">Loyalty Points</button>
+                    <button type="button" data-account-view="preferences">Preferences</button>
+                    <button type="button" data-account-view="addresses">Saved Addresses</button>
+                    <button type="button" data-account-view="payments">Payment History</button>
+                    <button type="button" data-account-view="notifications">Notifications</button>
+                    <button type="button" data-account-view="settings">Account Settings</button>
+                </nav>
+
+                <div id="customerAccountContent"></div>
+
+                <button type="button" id="logoutButton">Sign Out</button>
+            </div>
+        </div>
+    </section>
+    <script src="/js/ingredients.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/js/supabase-config.js"></script>
+<script src="/js/app.js"></script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

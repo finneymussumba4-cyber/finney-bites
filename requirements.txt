@@ -1,0 +1,15 @@
+fastapi
+uvicorn[standard]
+sqlalchemy
+alembic
+pymysql
+python-dotenv
+pwdlib[argon2]
+python-multipart
+reportlab
+httpx
+slowapi
+email-validator
+pytest
+itsdangerous
+tzdata
