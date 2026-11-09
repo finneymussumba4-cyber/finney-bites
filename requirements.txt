@@ -13,3 +13,5 @@ email-validator
 pytest
 itsdangerous
 tzdata
+
+psycopg[binary]
