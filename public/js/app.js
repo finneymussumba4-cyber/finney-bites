@@ -512,6 +512,20 @@ function setCustomerAccess(allowed) {
     document.body.classList.toggle("customer-auth-required", !allowed);
 
     const modal = document.getElementById("accountModal");
+    const isPasswordRecovery =
+        new URLSearchParams(window.location.search).get("reset-password") === "true";
+
+    if (isPasswordRecovery) {
+        modal.hidden = false;
+        document.getElementById("authSection").hidden = false;
+        document.getElementById("customerDashboard").hidden = true;
+        document.getElementById("loginForm").hidden = true;
+        document.getElementById("registerForm").hidden = true;
+        document.getElementById("forgotPasswordForm").hidden = true;
+        document.getElementById("resetPasswordForm").hidden = false;
+        return;
+    }
+
     if (allowed) {
         modal.hidden = true;
         return;
@@ -1212,12 +1226,6 @@ function showPasswordResetForm() {
         "Enter and confirm your new password.";
 }
 
-window.finneySupabase.auth.onAuthStateChange(event => {
-    if (event === "PASSWORD_RECOVERY") {
-        showPasswordResetForm();
-    }
-});
-
 if (new URLSearchParams(window.location.search).get("reset-password") === "true") {
     showPasswordResetForm();
 }
@@ -1345,36 +1353,6 @@ window.finneySupabase.auth.onAuthStateChange((event, session) => {
         setCustomerAccess(false);
     }
 });
-
-document.getElementById("resetPasswordForm").addEventListener("submit", async event => {
-    event.preventDefault();
-
-    const password = document.getElementById("newPassword").value;
-    const confirm = document.getElementById("confirmNewPassword").value;
-    const message = document.getElementById("accountMessage");
-
-    if (password !== confirm) {
-        message.textContent = "Passwords do not match.";
-        return;
-    }
-
-    try {
-        const { error } = await window.finneySupabase.auth.updateUser({ password });
-        if (error) throw error;
-
-        message.textContent = "Password updated successfully. Please sign in.";
-        await window.finneySupabase.auth.signOut();
-        finneyShowAccountForm("loginForm");
-    } catch (error) {
-        message.textContent = error.message || "Unable to update password.";
-    }
-});
-
-
-
-
-
-
 
 
 
